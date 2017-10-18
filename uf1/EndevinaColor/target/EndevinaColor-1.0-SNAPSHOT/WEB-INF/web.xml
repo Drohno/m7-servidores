@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>EndevinaColor</servlet-name>
+        <servlet-class>m7.uf1.servlets.endevinacolor.EndevinaColor</servlet-class>
+        <init-param>
+            <param-name>
+                color
+            </param-name>
+            <param-value>
+                white;red;blue;yellow;green;black;orange;pink
+            </param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>GenerarIndice</servlet-name>
+        <servlet-class>m7.uf1.servlets.endevinacolor.GenerarIndice</servlet-class>
+        <init-param>
+            <param-name>
+                color
+            </param-name>
+            <param-value>
+                white;red;blue;yellow;green;black;orange;pink;#ff00ff
+            </param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EndevinaColor</servlet-name>
+        <url-pattern>/EndevinaColor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenerarIndice</servlet-name>
+        <url-pattern>/GenerarIndice</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
