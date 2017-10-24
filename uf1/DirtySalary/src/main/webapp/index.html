@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>form-servlet</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Calculate your clean salary:</h1>
+        <form method="GET" action="DirtyCalculatorServlet">
+            <label for="salary">Dirty Salary:</label>
+            <input id="salary" type="number" name="dirtySalary" min="0">
+            <br>
+            <label for="children">Nº children:</label>
+            <input id="children"  type="number" name="children" min="0">
+            <br>
+            <input type="submit">
+        </form>
+    </body>
+</html>

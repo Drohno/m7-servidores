@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>m7.uf1.servlets</groupId>
-    <artifactId>EndevinaColor</artifactId>
+    <artifactId>DirtySalary</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>EndevinaColor</name>
+    <name>DirtySalary</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
