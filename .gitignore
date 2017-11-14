@@ -1,1 +1,3 @@
-/uf1/DirtySalary/target/
+*target/
+.idea
+*.iml
