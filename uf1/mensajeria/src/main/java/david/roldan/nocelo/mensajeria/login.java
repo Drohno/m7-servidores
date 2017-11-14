@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.mensajeria;
+package david.roldan.nocelo.mensajeria;
 
 import java.io.*;
 import java.util.Date;

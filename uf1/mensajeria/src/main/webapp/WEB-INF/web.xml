@@ -2,19 +2,19 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>com.mycompany.mensajeria.login</servlet-class>
+        <servlet-class>david.roldan.nocelo.mensajeria.login</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>core</servlet-name>
-        <servlet-class>com.mycompany.mensajeria.core</servlet-class>
+        <servlet-class>david.roldan.nocelo.mensajeria.core</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>sender</servlet-name>
-        <servlet-class>com.mycompany.mensajeria.sender</servlet-class>
+        <servlet-class>david.roldan.nocelo.mensajeria.sender</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>shower</servlet-name>
-        <servlet-class>com.mycompany.mensajeria.shower</servlet-class>
+        <servlet-class>david.roldan.nocelo.mensajeria.shower</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
