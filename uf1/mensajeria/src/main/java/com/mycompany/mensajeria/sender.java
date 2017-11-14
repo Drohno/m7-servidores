@@ -5,12 +5,16 @@
  */
 package com.mycompany.mensajeria;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,24 +31,77 @@ public class sender extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet sender</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet sender at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        HttpSession session = req.getSession();
+        //Comprobamos que no se haya entrado accediendo a la URL directamente   
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            res.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = res.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Write New</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Writting New Message</h1>");
+                out.println("<hr>");
+                out.println("<form method='POST' action='sender'>");
+                out.println("<p>To:</p>");
+                listarUsuarios(session.getAttribute("usuario").toString(), out);
+                out.println("<p>Message body:</p>");
+                out.println("<textarea id='mensaje' name='mensaje' style='height: 200px; width: 400px;' maxlength='250' required></textarea>");
+                out.println("<p><span id='escritos'>0</span>/250</p>");
+                out.println("<br>");
+                out.println("<input type='submit' value='Send'>");
+                out.println("</form>");
+                out.println("<script>"
+                        + "document.getElementById('mensaje').addEventListener('input', function(){"
+                        + "var textarea = document.getElementById('mensaje');"
+                        + "document.getElementById('escritos').innerHTML = textarea.value.length;"
+                        + "});"
+                        + "</script>"
+                );
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    private void listarUsuarios(String usuario, PrintWriter out) {
+        System.err.println(timestamp() + "Iniciando Listado de usuarios en messages/");
+
+        File folder = new File("messages/");
+        File[] listOfFiles = folder.listFiles();
+
+        out.println("<select name='destino'>");
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                //System.out.println("File " + listOfFiles[i].getName());
+                //out.print("<a>" + listOfFiles[i].getName() + "</a>");
+
+            } else if (listOfFiles[i].isDirectory()) {
+                System.err.println("Directory " + listOfFiles[i].getName());
+                //Descomentar para que no aparezca nuestro usuario dentro del selector
+                if (!listOfFiles[i].getName().equals(usuario)) {
+                    out.println("<option value='" + listOfFiles[i].getName() + "'>" + listOfFiles[i].getName() + "</option>");
+                }
+            }
+        }
+        out.println("</select>");
+    }
+
+    private String timestamp() {
+        Date ahora = new Date();
+        String fecha = ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds();
+        return fecha;
+    }
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -58,6 +115,34 @@ public class sender extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+    
+    private String timestampMSG() {
+        Date ahora = new Date();
+        String fecha = (ahora.getYear()+1900) + "-" + ahora.getMonth() + "-" + ahora.getDay() + "-" + ahora.getHours() + ":" + ahora.getMinutes();
+        return fecha;
+    }
+    
+    private boolean escribirMensaje(String origen, String destino, String mensaje) {
+
+        System.err.println(timestamp() + "Iniciando escritura de mensaje de " + origen + " a " + destino);
+
+        try {
+            FileWriter outbox = new FileWriter("./messages/" + destino + "/recibidos/" + timestampMSG() + "-" + origen + ".msg", true);
+            outbox.write(mensaje);
+            outbox.close();
+
+            FileWriter inbox = new FileWriter("./messages/" + origen + "/enviados/" + timestampMSG() + "-" + destino + ".msg", true);
+            inbox.write(mensaje);
+            inbox.close();
+            return true;
+
+        } catch (Exception err) {
+            System.err.println(timestamp());
+            System.err.println(err);
+            return false;
+        }
+
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -68,9 +153,21 @@ public class sender extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = req.getSession();
+        String destino = req.getParameter("destino");
+        String origen = session.getAttribute("usuario").toString();
+        String mensaje = req.getParameter("mensaje");
+        try (PrintWriter out = res.getWriter()) {
+            if (escribirMensaje(origen, destino, mensaje)) {
+                out.print("<a href='core'>Mensaje enviado correctamente</a>");
+            } else {
+                out.print("<a href='core'>Hubo un error al enviar mensaje. Lo sentimos T_T</a>");
+            }
+        }
+
     }
 
     /**

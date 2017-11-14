@@ -5,12 +5,15 @@
  */
 package com.mycompany.mensajeria;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,21 +30,60 @@ public class core extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet core</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet core at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = req.getSession();
+        //Comprobamos que no se haya entrado accediendo a la URL directamente   
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            res.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = res.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Inbox</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Welcome: " + session.getAttribute("usuario") + "</h1>");
+                out.println("<hr>");
+                out.println("<button onclick=window.location.href='sender'>Write New</button>");
+                //TODO Funcion que liste el contenido de mensajes recibidos
+                out.println("<h3>Messages received</h3>");
+                listarDirectorio(session.getAttribute("usuario")+"/recibidos", out);
+                //TODO Funcion que liste el contenido de mensajes enviados
+                out.println("<h3>Messages send</h3>");
+                listarDirectorio(session.getAttribute("usuario")+"/enviados", out);
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
+    }
+    
+    private void listarDirectorio(String directorio, PrintWriter out){
+        
+        System.err.println(timestamp() + "Iniciando Listado del directorio messages/" + directorio);
+        
+        File folder = new File("messages/"+directorio);
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                //System.out.println("File " + listOfFiles[i].getName());
+                out.print("<a>" + listOfFiles[i].getName() + "</a>");
+                out.print("<br>");
+                
+            } else if (listOfFiles[i].isDirectory()) {
+                //System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
+    }
+    
+    private String timestamp() {
+        Date ahora = new Date();
+        String fecha = ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds();
+        return fecha;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
