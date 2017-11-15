@@ -51,27 +51,29 @@ public class core extends HttpServlet {
                 out.println("<button onclick=window.location.href='sender'>Write New</button>");
                 //TODO Funcion que liste el contenido de mensajes recibidos
                 out.println("<h3>Messages received</h3>");
-                listarDirectorio(session.getAttribute("usuario")+"/recibidos", out);
+                listarDirectorio(session.getAttribute("usuario").toString(), "recibidos", out);
                 //TODO Funcion que liste el contenido de mensajes enviados
-                out.println("<h3>Messages send</h3>");
-                listarDirectorio(session.getAttribute("usuario")+"/enviados", out);
+                out.println("<h3>Messages sent</h3>");
+                listarDirectorio(session.getAttribute("usuario").toString(), "enviados", out);
+                out.println("<br>");
+                out.println("<button onclick='window.location.href=\"login\"'>Close session</button>");
                 out.println("</body>");
                 out.println("</html>");
             }
         }
     }
     
-    private void listarDirectorio(String directorio, PrintWriter out){
+    private void listarDirectorio(String usuario, String directorio, PrintWriter out){
         
-        System.err.println(timestamp() + "Iniciando Listado del directorio messages/" + directorio);
+        System.err.println(timestamp() + "Iniciando Listado del directorio messages/" + usuario+ "/" + directorio);
         
-        File folder = new File("messages/"+directorio);
+        File folder = new File("messages/"+ usuario+ "/" + directorio);
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 //System.out.println("File " + listOfFiles[i].getName());
-                out.print("<a>" + listOfFiles[i].getName() + "</a>");
+                out.print("<a href='shower?folder="+directorio+"&mensaje="+listOfFiles[i].getName()+"'>" + listOfFiles[i].getName() + "</a>");
                 out.print("<br>");
                 
             } else if (listOfFiles[i].isDirectory()) {

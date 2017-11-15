@@ -87,8 +87,13 @@ public class login extends HttpServlet {
 
             res.sendRedirect("core");
         } else {
-            res.sendRedirect("badLogin.html");
+            try (PrintWriter out = res.getWriter()) {
+                out.print("<script>confirm('Bad username/password! Try Again!'); window.location.href='login'</script>");
+                //res.sendRedirect("login");
+            }
+
         }
+
     }
 
     /**
