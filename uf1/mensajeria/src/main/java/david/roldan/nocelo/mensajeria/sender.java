@@ -161,13 +161,16 @@ public class sender extends HttpServlet {
         String origen = session.getAttribute("usuario").toString();
         String mensaje = req.getParameter("mensaje");
         try (PrintWriter out = res.getWriter()) {
-            if (escribirMensaje(origen, destino, mensaje)) {
+            escribirMensaje(origen, destino, mensaje);
+            res.sendRedirect("core");
+            /*
+            if(escribirMensaje(origen, destino, mensaje)){
                 out.print("<a href='core'>Mensaje enviado correctamente</a>");
             } else {
                 out.print("<a href='core'>Hubo un error al enviar mensaje. Lo sentimos T_T</a>");
             }
+            */
         }
-
     }
 
     /**
