@@ -5,8 +5,12 @@
  */
 package david.roldan.nocelo.mensajeria;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +38,33 @@ public class dalek extends HttpServlet {
         if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
             res.sendRedirect("login.html");
         } else {
-            
+            String mensaje = req.getParameter("mensaje");
+            String directorio = req.getParameter("folder").toLowerCase();
+            try {
+                File fichero = new File("messages/" + session.getAttribute("usuario") + "/" + directorio + "/" + mensaje);
+                fichero.delete();
+            }catch (Exception err) {
+                System.err.println(err);
+            }
+            res.sendRedirect("core");
+            // File permission problems are caught here.
+            /*
+            res.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = res.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet dalek</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h2>Your message has been annihilated</h2>");
+            out.println("<img src='https://media0.giphy.com/media/rhYsUMhhd6yA0/giphy.gif'>");
+            out.println("<br>");
+            out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
+            out.println("</body>");
+            out.println("</html>");
+            }
+             */
             /*
             res.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = res.getWriter()) {
@@ -51,7 +81,7 @@ public class dalek extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }
-            */
+             */
         }
     }
 
