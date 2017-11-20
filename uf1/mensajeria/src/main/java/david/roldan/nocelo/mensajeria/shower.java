@@ -36,36 +36,40 @@ public class shower extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        res.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = res.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet shower</title>");
-            out.println("</head>");
-            out.println("<body>");
-            String mensaje = req.getParameter("mensaje");
-            String persona = mensaje.substring(mensaje.lastIndexOf("-") + 1, mensaje.lastIndexOf("."));
-            if (req.getParameter("folder").toLowerCase().equals("enviados")) {
-                out.println("<h1>Sent</h1>");
-                out.println("<h3>To: " + persona + "</h3>");
-            } else {
-                out.println("<h1>Received</h1>");
-                out.println("<h3>From: " + persona + "</h3>");
-            }
-            String fecha = mensaje.substring(0, mensaje.lastIndexOf("-"));
-            out.println("<h3>At: " + fecha + "</h3>");
-            out.println("<h3>Text:</h3>");
-            HttpSession session = req.getSession();
-            String usuario = session.getAttribute("usuario").toString();
-            String cuerpo = bodyFichero(usuario, req.getParameter("folder").toLowerCase(), mensaje);
-            out.println("<textarea readonly style='height: 200px; width: 400px;'>" + cuerpo + "</textarea>");
-            out.println("<br><br>");
-            out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = req.getSession();
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            res.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = res.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet shower</title>");
+                out.println("</head>");
+                out.println("<body>");
+                String mensaje = req.getParameter("mensaje");
+                String persona = mensaje.substring(mensaje.lastIndexOf("-") + 1, mensaje.lastIndexOf("."));
+                if (req.getParameter("folder").toLowerCase().equals("enviados")) {
+                    out.println("<h1>Sent</h1>");
+                    out.println("<h3>To: " + persona + "</h3>");
+                } else {
+                    out.println("<h1>Received</h1>");
+                    out.println("<h3>From: " + persona + "</h3>");
+                }
+                String fecha = mensaje.substring(0, mensaje.lastIndexOf("-"));
+                out.println("<h3>At: " + fecha + "</h3>");
+                out.println("<h3>Text:</h3>");                
+                String usuario = session.getAttribute("usuario").toString();
+                String cuerpo = bodyFichero(usuario, req.getParameter("folder").toLowerCase(), mensaje);
+                out.println("<textarea readonly style='height: 200px; width: 400px;'>" + cuerpo + "</textarea>");
+                out.println("<br><br>");
+                out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
+                out.println("</body>");
+                out.println("</html>");
 
+            }
         }
     }
 
@@ -119,7 +123,12 @@ public class shower extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        res.sendRedirect("core");
+        HttpSession session = req.getSession();
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            res.sendRedirect("core");
+        }
     }
 
     /**

@@ -59,6 +59,8 @@ public class sender extends HttpServlet {
                 out.println("<br>");
                 out.println("<input type='submit' value='Send'>");
                 out.println("</form>");
+                out.println("<hr>");
+                out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
                 out.println("<script>"
                         + "document.getElementById('mensaje').addEventListener('input', function(){"
                         + "var textarea = document.getElementById('mensaje');"
@@ -115,13 +117,13 @@ public class sender extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     private String timestampMSG() {
         Date ahora = new Date();
-        String fecha = (ahora.getYear()+1900) + "-" + ahora.getMonth() + "-" + ahora.getDay() + "-" + ahora.getHours() + ":" + ahora.getMinutes();
+        String fecha = (ahora.getYear() + 1900) + "-" + ahora.getMonth() + "-" + ahora.getDay() + "-" + ahora.getHours() + ":" + ahora.getMinutes();
         return fecha;
     }
-    
+
     private boolean escribirMensaje(String origen, String destino, String mensaje) {
 
         System.err.println(timestamp() + "Iniciando escritura de mensaje de " + origen + " a " + destino);
@@ -155,21 +157,24 @@ public class sender extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        
         HttpSession session = req.getSession();
-        String destino = req.getParameter("destino");
-        String origen = session.getAttribute("usuario").toString();
-        String mensaje = req.getParameter("mensaje");
-        try (PrintWriter out = res.getWriter()) {
-            escribirMensaje(origen, destino, mensaje);
-            res.sendRedirect("core");
-            /*
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            String destino = req.getParameter("destino");
+            String origen = session.getAttribute("usuario").toString();
+            String mensaje = req.getParameter("mensaje");
+            try (PrintWriter out = res.getWriter()) {
+                escribirMensaje(origen, destino, mensaje);
+                res.sendRedirect("core");
+                /*
             if(escribirMensaje(origen, destino, mensaje)){
                 out.print("<a href='core'>Mensaje enviado correctamente</a>");
             } else {
                 out.print("<a href='core'>Hubo un error al enviar mensaje. Lo sentimos T_T</a>");
             }
-            */
+                 */
+            }
         }
     }
 

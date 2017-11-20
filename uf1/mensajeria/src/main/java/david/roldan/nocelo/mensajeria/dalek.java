@@ -5,10 +5,8 @@
  */
 package david.roldan.nocelo.mensajeria;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author david
  */
-public class core extends HttpServlet {
+public class dalek extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,59 +31,28 @@ public class core extends HttpServlet {
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         HttpSession session = req.getSession();
-        //Comprobamos que no se haya entrado accediendo a la URL directamente   
         if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
             res.sendRedirect("login.html");
         } else {
+            
+            /*
             res.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = res.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Inbox</title>");
+                out.println("<title>Servlet dalek</title>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Welcome: " + session.getAttribute("usuario") + "</h1>");
-                out.println("<hr>");
-                out.println("<button onclick=window.location.href='sender'>Write New</button>");
-                //TODO Funcion que liste el contenido de mensajes recibidos
-                out.println("<h3>Messages received</h3>");
-                listarDirectorio(session.getAttribute("usuario").toString(), "recibidos", out);
-                //TODO Funcion que liste el contenido de mensajes enviados
-                out.println("<h3>Messages sent</h3>");
-                listarDirectorio(session.getAttribute("usuario").toString(), "enviados", out);
+                out.println("<h2>Your message has been annihilated</h2>");
+                out.println("<img src='https://media0.giphy.com/media/rhYsUMhhd6yA0/giphy.gif'>");
                 out.println("<br>");
-                out.println("<button onclick='window.location.href=\"closeSession\"'>Close session</button>");
+                out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
                 out.println("</body>");
                 out.println("</html>");
             }
+            */
         }
-    }
-    
-    private void listarDirectorio(String usuario, String directorio, PrintWriter out){
-        
-        System.err.println(timestamp() + "Iniciando Listado del directorio messages/" + usuario+ "/" + directorio);
-        
-        File folder = new File("messages/"+ usuario+ "/" + directorio);
-        File[] listOfFiles = folder.listFiles();
-
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                //System.out.println("File " + listOfFiles[i].getName());
-                out.print("<a href='shower?folder="+directorio+"&mensaje="+listOfFiles[i].getName()+"'>" + listOfFiles[i].getName() + "</a><a href=\"dalek?folder="+directorio+"&mensaje="+listOfFiles[i].getName()+"\">\t[X]</a>");
-                out.print("<br>");
-                
-            } else if (listOfFiles[i].isDirectory()) {
-                //System.out.println("Directory " + listOfFiles[i].getName());
-            }
-        }
-    }
-    
-    private String timestamp() {
-        Date ahora = new Date();
-        String fecha = ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds();
-        return fecha;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,9 +65,9 @@ public class core extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(req, res);
     }
 
     /**
@@ -112,9 +79,9 @@ public class core extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        processRequest(request, response);
+        res.sendRedirect("login.html");
     }
 
     /**

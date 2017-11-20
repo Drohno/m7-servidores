@@ -45,7 +45,6 @@ public class login extends HttpServlet {
             System.err.println(timestamp() + " --------- Where is created? " + f.getAbsolutePath() + "---------");
 
         } catch (Exception e) {
-
             // if any error occurs
             e.printStackTrace();
         }
@@ -88,7 +87,7 @@ public class login extends HttpServlet {
             res.sendRedirect("core");
         } else {
             try (PrintWriter out = res.getWriter()) {
-                out.print("<script>confirm('Bad username/password! Try Again!'); window.location.href='login'</script>");
+                out.print("<script>confirm('Bad username/password! Try Again!'); window.location.href='loginxº'</script>");
                 //res.sendRedirect("login");
             }
 
