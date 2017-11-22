@@ -46,9 +46,29 @@ public class shower extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
+                out.println("<meta charset='utf-8'>");
                 out.println("<title>Servlet shower</title>");
+                out.println("<style>\n"
+                        + "body{\n"
+                        + "    background-color: #000;\n"
+                        + "    color: #fff;\n"
+                        + "}\n"
+                        + "\n"
+                        + "div{\n"
+                        + "    text-align: center;\n"
+                        + "    margin-top: 100px;\n"
+                        + "    width: 400px;\n"
+                        + "    margin: 0 auto;\n"
+                        + "}\n"
+                        + "\n"
+                        + "button, .boton{\n"
+                        + "    background-color: #6666ff;\n"
+                        + "    color: #fff;\n"
+                        + "    font-weight: bolder;\n"
+                        + "}</style>");
                 out.println("</head>");
                 out.println("<body>");
+                out.println("<div>");
                 String mensaje = req.getParameter("mensaje");
                 String persona = mensaje.substring(mensaje.lastIndexOf("-") + 1, mensaje.lastIndexOf("."));
                 if (req.getParameter("folder").toLowerCase().equals("enviados")) {
@@ -60,12 +80,13 @@ public class shower extends HttpServlet {
                 }
                 String fecha = mensaje.substring(0, mensaje.lastIndexOf("-"));
                 out.println("<h3>At: " + fecha + "</h3>");
-                out.println("<h3>Text:</h3>");                
+                out.println("<h3>Text:</h3>");
                 String usuario = session.getAttribute("usuario").toString();
                 String cuerpo = bodyFichero(usuario, req.getParameter("folder").toLowerCase(), mensaje);
                 out.println("<textarea readonly style='height: 200px; width: 400px;'>" + cuerpo + "</textarea>");
                 out.println("<br><br>");
                 out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
+                out.println("</div>");
                 out.println("</body>");
                 out.println("</html>");
 
@@ -86,6 +107,7 @@ public class shower extends HttpServlet {
                 String line = "";
                 while ((line = bufferedReader.readLine()) != null) {
                     text = text + line;
+                    text += "\n";
                 }
 
                 // Always close files.

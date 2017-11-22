@@ -3,9 +3,28 @@
     <head>
         <title>Welcome</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            body{
+                background-color: #000;
+                color: #fff;
+            }
+
+            div{
+                text-align: center;
+                margin-top: 100px;
+                width: 400px;
+                margin: 0 auto;
+            }
+
+            button, .boton{
+                background-color: #6666ff;
+                color: #fff;
+                font-weight: bolder;
+            }
+        </style>
     </head>
     <body>
-        <div style="text-align: center; margin-top: 100px; width: 400px; margin: 0 auto;">
+        <div>
             <h1>Doves by David Roldan Nocelo</h1>
             <br>
             <form action="login" method="POST">
@@ -17,7 +36,7 @@
                 <br>
                 <input name="password" type="password" required>
                 <hr>
-                <input type="submit" value="Enviar">
+                <input class="boton" type="submit" value="Enviar">
                 <!--
                 <hr>
                 <a href="index.html">Attempt to create again directories</a>

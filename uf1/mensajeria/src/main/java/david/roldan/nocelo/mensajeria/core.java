@@ -43,9 +43,33 @@ public class core extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
+                out.println("<meta charset='utf-8'>");
+                out.println("<style>\n"
+                        + "body{\n"
+                        + "    background-color: #000;\n"
+                        + "    color: #fff;\n"
+                        + "}\n"
+                        + "\n"
+                        + "div{\n"
+                        + "    text-align: center;\n"
+                        + "    margin-top: 100px;\n"
+                        + "    width: 400px;\n"
+                        + "    margin: 0 auto;\n"
+                        + "}\n"
+                        + "\n"
+                        + "button, .boton{\n"
+                        + "    background-color: #6666ff;\n"
+                        + "    color: #fff;\n"
+                        + "    font-weight: bolder;\n"
+                        + "}"
+                        + "a{color:greenyellow}"
+                        + "a:visited{color:green}"
+                        + ".borrar{color:red}"
+                        + "</style>");
                 out.println("<title>Inbox</title>");
                 out.println("</head>");
                 out.println("<body>");
+                out.println("<div>");
                 out.println("<h1>Welcome: " + session.getAttribute("usuario") + "</h1>");
                 out.println("<hr>");
                 out.println("<button onclick=window.location.href='sender'>Write New</button>");
@@ -57,31 +81,32 @@ public class core extends HttpServlet {
                 listarDirectorio(session.getAttribute("usuario").toString(), "enviados", out);
                 out.println("<br>");
                 out.println("<button onclick='window.location.href=\"closeSession\"'>Close session</button>");
+                out.println("</div>");
                 out.println("</body>");
                 out.println("</html>");
             }
         }
     }
-    
-    private void listarDirectorio(String usuario, String directorio, PrintWriter out){
-        
-        System.err.println(timestamp() + "Iniciando Listado del directorio messages/" + usuario+ "/" + directorio);
-        
-        File folder = new File("messages/"+ usuario+ "/" + directorio);
+
+    private void listarDirectorio(String usuario, String directorio, PrintWriter out) {
+
+        System.err.println(timestamp() + "Iniciando Listado del directorio messages/" + usuario + "/" + directorio);
+
+        File folder = new File("messages/" + usuario + "/" + directorio);
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 //System.out.println("File " + listOfFiles[i].getName());
-                out.print("<a href='shower?folder="+directorio+"&mensaje="+listOfFiles[i].getName()+"'>" + listOfFiles[i].getName() + "</a><a href=\"dalek?folder="+directorio+"&mensaje="+listOfFiles[i].getName()+"\">\t[X]</a>");
+                out.print("<a href='shower?folder=" + directorio + "&mensaje=" + listOfFiles[i].getName() + "'>" + listOfFiles[i].getName() + "</a><a class='borrar' href=\"dalek?folder=" + directorio + "&mensaje=" + listOfFiles[i].getName() + "\">\t[X]</a>");
                 out.print("<br>");
-                
+
             } else if (listOfFiles[i].isDirectory()) {
                 //System.out.println("Directory " + listOfFiles[i].getName());
             }
         }
     }
-    
+
     private String timestamp() {
         Date ahora = new Date();
         String fecha = ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds();

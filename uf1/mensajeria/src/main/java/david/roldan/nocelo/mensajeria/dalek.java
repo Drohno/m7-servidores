@@ -47,41 +47,6 @@ public class dalek extends HttpServlet {
                 System.err.println(err);
             }
             res.sendRedirect("core");
-            // File permission problems are caught here.
-            /*
-            res.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = res.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet dalek</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h2>Your message has been annihilated</h2>");
-            out.println("<img src='https://media0.giphy.com/media/rhYsUMhhd6yA0/giphy.gif'>");
-            out.println("<br>");
-            out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
-            out.println("</body>");
-            out.println("</html>");
-            }
-             */
-            /*
-            res.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = res.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet dalek</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h2>Your message has been annihilated</h2>");
-                out.println("<img src='https://media0.giphy.com/media/rhYsUMhhd6yA0/giphy.gif'>");
-                out.println("<br>");
-                out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
-                out.println("</body>");
-                out.println("</html>");
-            }
-             */
         }
     }
 

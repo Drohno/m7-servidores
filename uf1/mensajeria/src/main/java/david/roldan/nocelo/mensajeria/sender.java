@@ -45,9 +45,30 @@ public class sender extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
+                out.println("<meta charset='utf-8'>");
                 out.println("<title>Write New</title>");
+                out.println("<style>\n"
+                        + "body{\n"
+                        + "    background-color: #000;\n"
+                        + "    color: #fff;\n"
+                        + "}\n"
+                        + "\n"
+                        + "div{\n"
+                        + "    text-align: center;\n"
+                        + "    margin-top: 100px;\n"
+                        + "    width: 400px;\n"
+                        + "    margin: 0 auto;\n"
+                        + "}\n"
+                        + "\n"
+                        + "button, .boton{\n"
+                        + "    background-color: #6666ff;\n"
+                        + "    color: #fff;\n"
+                        + "    font-weight: bolder;\n"
+                        + "}"
+                        + "</style>");
                 out.println("</head>");
                 out.println("<body>");
+                out.println("<div>");
                 out.println("<h1>Writting New Message</h1>");
                 out.println("<hr>");
                 out.println("<form method='POST' action='sender'>");
@@ -57,10 +78,11 @@ public class sender extends HttpServlet {
                 out.println("<textarea id='mensaje' name='mensaje' style='height: 200px; width: 400px;' maxlength='250' required></textarea>");
                 out.println("<p><span id='escritos'>0</span>/250</p>");
                 out.println("<br>");
-                out.println("<input type='submit' value='Send'>");
+                out.println("<input class='boton' type='submit' value='Send'>");
                 out.println("</form>");
                 out.println("<hr>");
                 out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
+                out.println("</div>");
                 out.println("<script>"
                         + "document.getElementById('mensaje').addEventListener('input', function(){"
                         + "var textarea = document.getElementById('mensaje');"
@@ -81,7 +103,7 @@ public class sender extends HttpServlet {
         File folder = new File("messages/");
         File[] listOfFiles = folder.listFiles();
 
-        out.println("<select name='destino'>");
+        out.println("<select class='boton' name='destino'>");
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 //System.out.println("File " + listOfFiles[i].getName());
