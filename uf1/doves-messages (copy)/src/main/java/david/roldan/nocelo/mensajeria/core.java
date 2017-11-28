@@ -21,16 +21,6 @@ import javax.servlet.http.HttpSession;
  */
 public class core extends HttpServlet {
 
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        newUser("david");
-        newUser("roger");
-        newUser("carlos");
-        newUser("ruben");
-    }
-    
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,54 +32,59 @@ public class core extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        HttpSession session = req.getSession();
         //Comprobamos que no se haya entrado accediendo a la URL directamente   
-        res.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = res.getWriter()) {
-            String usuario = req.getUserPrincipal().getName();
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset='utf-8'>");
-            out.println("<style>\n"
-                    + "body{\n"
-                    + "    background-color: #000;\n"
-                    + "    color: #fff;\n"
-                    + "}\n"
-                    + "\n"
-                    + "div{\n"
-                    + "    text-align: center;\n"
-                    + "    margin-top: 100px;\n"
-                    + "    width: 400px;\n"
-                    + "    margin: 0 auto;\n"
-                    + "}\n"
-                    + "\n"
-                    + "button, .boton{\n"
-                    + "    background-color: #6666ff;\n"
-                    + "    color: #fff;\n"
-                    + "    font-weight: bolder;\n"
-                    + "}"
-                    + "a{color:greenyellow}"
-                    + "a:visited{color:green}"
-                    + ".borrar{color:red}"
-                    + "</style>");
-            out.println("<title>Inbox</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<div>");
-            out.println("<h1>Welcome: " + usuario + "</h1>");
-            out.println("<hr>");
-            out.println("<button onclick=window.location.href='sender'>Write New</button>");
-            //TODO Funcion que liste el contenido de mensajes recibidos
-            out.println("<h3>Messages received</h3>");
-            listarDirectorio(usuario, "recibidos", out);
-            //TODO Funcion que liste el contenido de mensajes enviados
-            out.println("<h3>Messages sent</h3>");
-            listarDirectorio(usuario, "enviados", out);
-            out.println("</div>");
-            out.println("</body>");
-            out.println("</html>");
-
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            res.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = res.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<meta charset='utf-8'>");
+                out.println("<style>\n"
+                        + "body{\n"
+                        + "    background-color: #000;\n"
+                        + "    color: #fff;\n"
+                        + "}\n"
+                        + "\n"
+                        + "div{\n"
+                        + "    text-align: center;\n"
+                        + "    margin-top: 100px;\n"
+                        + "    width: 400px;\n"
+                        + "    margin: 0 auto;\n"
+                        + "}\n"
+                        + "\n"
+                        + "button, .boton{\n"
+                        + "    background-color: #6666ff;\n"
+                        + "    color: #fff;\n"
+                        + "    font-weight: bolder;\n"
+                        + "}"
+                        + "a{color:greenyellow}"
+                        + "a:visited{color:green}"
+                        + ".borrar{color:red}"
+                        + "</style>");
+                out.println("<title>Inbox</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<div>");
+                out.println("<h1>Welcome: " + session.getAttribute("usuario") + "</h1>");
+                out.println("<hr>");
+                out.println("<button onclick=window.location.href='sender'>Write New</button>");
+                //TODO Funcion que liste el contenido de mensajes recibidos
+                out.println("<h3>Messages received</h3>");
+                listarDirectorio(session.getAttribute("usuario").toString(), "recibidos", out);
+                //TODO Funcion que liste el contenido de mensajes enviados
+                out.println("<h3>Messages sent</h3>");
+                listarDirectorio(session.getAttribute("usuario").toString(), "enviados", out);
+                out.println("<br>");
+                out.println("<button onclick='window.location.href=\"closeSession\"'>Close session</button>");
+                out.println("</div>");
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
     }
 
@@ -109,36 +104,6 @@ public class core extends HttpServlet {
             } else if (listOfFiles[i].isDirectory()) {
                 //System.out.println("Directory " + listOfFiles[i].getName());
             }
-        }
-    }
-    
-    //Generamos los directorios de manera automatica con este proceso
-    void newUser(String usuario) {
-        System.err.println(timestamp() + " ---------Begin creation of directories---------");
-        File f = null;
-        boolean bool = false;
-
-        try {
-
-            // returns pathnames for files and directory
-            f = new File("messages/" + usuario + "/enviados");
-            // create
-            bool = f.mkdirs();
-            // print
-            System.err.println(timestamp() + " ---------Directory created? " + bool + "---------");
-            System.err.println(timestamp() + " --------- Where is created? " + f.getAbsolutePath() + "---------");
-
-            // returns pathnames for files and directory
-            f = new File("messages/" + usuario + "/recibidos");
-            // create
-            bool = f.mkdirs();
-            // print
-            System.err.println(timestamp() + " ---------Directory created? " + bool + "---------");
-            System.err.println(timestamp() + " --------- Where is created? " + f.getAbsolutePath() + "---------");
-
-        } catch (Exception e) {
-            // if any error occurs
-            e.printStackTrace();
         }
     }
 

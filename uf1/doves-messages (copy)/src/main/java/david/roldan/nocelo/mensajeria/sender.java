@@ -33,61 +33,66 @@ public class sender extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+
+        HttpSession session = req.getSession();
         //Comprobamos que no se haya entrado accediendo a la URL directamente   
-        res.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = res.getWriter()) {
-            String usuario = req.getUserPrincipal().getName();
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset='utf-8'>");
-            out.println("<title>Write New</title>");
-            out.println("<style>\n"
-                    + "body{\n"
-                    + "    background-color: #000;\n"
-                    + "    color: #fff;\n"
-                    + "}\n"
-                    + "\n"
-                    + "div{\n"
-                    + "    text-align: center;\n"
-                    + "    margin-top: 100px;\n"
-                    + "    width: 400px;\n"
-                    + "    margin: 0 auto;\n"
-                    + "}\n"
-                    + "\n"
-                    + "button, .boton{\n"
-                    + "    background-color: #6666ff;\n"
-                    + "    color: #fff;\n"
-                    + "    font-weight: bolder;\n"
-                    + "}"
-                    + "</style>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<div>");
-            out.println("<h1>Writting New Message</h1>");
-            out.println("<hr>");
-            out.println("<form method='POST' action='sender'>");
-            out.println("<p>To:</p>");
-            listarUsuarios(usuario, out);
-            out.println("<p>Message body:</p>");
-            out.println("<textarea id='mensaje' name='mensaje' style='height: 200px; width: 400px;' maxlength='250' required></textarea>");
-            out.println("<p><span id='escritos'>0</span>/250</p>");
-            out.println("<br>");
-            out.println("<input class='boton' type='submit' value='Send'>");
-            out.println("</form>");
-            out.println("<hr>");
-            out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
-            out.println("</div>");
-            out.println("<script>"
-                    + "document.getElementById('mensaje').addEventListener('input', function(){"
-                    + "var textarea = document.getElementById('mensaje');"
-                    + "document.getElementById('escritos').innerHTML = textarea.value.length;"
-                    + "});"
-                    + "</script>"
-            );
-            out.println("</body>");
-            out.println("</html>");
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            res.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = res.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<meta charset='utf-8'>");
+                out.println("<title>Write New</title>");
+                out.println("<style>\n"
+                        + "body{\n"
+                        + "    background-color: #000;\n"
+                        + "    color: #fff;\n"
+                        + "}\n"
+                        + "\n"
+                        + "div{\n"
+                        + "    text-align: center;\n"
+                        + "    margin-top: 100px;\n"
+                        + "    width: 400px;\n"
+                        + "    margin: 0 auto;\n"
+                        + "}\n"
+                        + "\n"
+                        + "button, .boton{\n"
+                        + "    background-color: #6666ff;\n"
+                        + "    color: #fff;\n"
+                        + "    font-weight: bolder;\n"
+                        + "}"
+                        + "</style>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<div>");
+                out.println("<h1>Writting New Message</h1>");
+                out.println("<hr>");
+                out.println("<form method='POST' action='sender'>");
+                out.println("<p>To:</p>");
+                listarUsuarios(session.getAttribute("usuario").toString(), out);
+                out.println("<p>Message body:</p>");
+                out.println("<textarea id='mensaje' name='mensaje' style='height: 200px; width: 400px;' maxlength='250' required></textarea>");
+                out.println("<p><span id='escritos'>0</span>/250</p>");
+                out.println("<br>");
+                out.println("<input class='boton' type='submit' value='Send'>");
+                out.println("</form>");
+                out.println("<hr>");
+                out.println("<button onclick='window.location.href=\"core\"'>Go back</button>");
+                out.println("</div>");
+                out.println("<script>"
+                        + "document.getElementById('mensaje').addEventListener('input', function(){"
+                        + "var textarea = document.getElementById('mensaje');"
+                        + "document.getElementById('escritos').innerHTML = textarea.value.length;"
+                        + "});"
+                        + "</script>"
+                );
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
 
     }
@@ -174,19 +179,24 @@ public class sender extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        String usuario = req.getUserPrincipal().getName();
-        String destino = req.getParameter("destino");
-        String mensaje = req.getParameter("mensaje");
-        try (PrintWriter out = res.getWriter()) {
-            escribirMensaje(usuario, destino, mensaje);
-            res.sendRedirect("core");
-            /*
+        HttpSession session = req.getSession();
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            String destino = req.getParameter("destino");
+            String origen = session.getAttribute("usuario").toString();
+            String mensaje = req.getParameter("mensaje");
+            try (PrintWriter out = res.getWriter()) {
+                escribirMensaje(origen, destino, mensaje);
+                res.sendRedirect("core");
+                /*
             if(escribirMensaje(origen, destino, mensaje)){
                 out.print("<a href='core'>Mensaje enviado correctamente</a>");
             } else {
                 out.print("<a href='core'>Hubo un error al enviar mensaje. Lo sentimos T_T</a>");
             }
-             */
+                 */
+            }
         }
     }
 

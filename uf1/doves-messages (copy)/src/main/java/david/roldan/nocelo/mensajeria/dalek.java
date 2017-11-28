@@ -34,17 +34,20 @@ public class dalek extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        String usuario = req.getUserPrincipal().getName();
-        String mensaje = req.getParameter("mensaje");
-        String directorio = req.getParameter("folder").toLowerCase();
-        try {
-            File fichero = new File("messages/" + usuario + "/" + directorio + "/" + mensaje);
-            fichero.delete();
-        } catch (Exception err) {
-            System.err.println(err);
+        HttpSession session = req.getSession();
+        if (session.getAttribute("usuario") == null || session.getAttribute("usuario") == "") {
+            res.sendRedirect("login.html");
+        } else {
+            String mensaje = req.getParameter("mensaje");
+            String directorio = req.getParameter("folder").toLowerCase();
+            try {
+                File fichero = new File("messages/" + session.getAttribute("usuario") + "/" + directorio + "/" + mensaje);
+                fichero.delete();
+            }catch (Exception err) {
+                System.err.println(err);
+            }
+            res.sendRedirect("core");
         }
-        res.sendRedirect("core");
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,6 +76,7 @@ public class dalek extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        res.sendRedirect("login.html");
     }
 
     /**
