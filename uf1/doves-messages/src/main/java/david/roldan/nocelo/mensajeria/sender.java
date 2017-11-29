@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author david
- */
+         /******************************************************************\
+         *                                                                  *
+         *              Proudly coded by David Roldan Nocelo                *
+         *                                                                  *
+         \******************************************************************/
+
 public class sender extends HttpServlet {
 
     /**
@@ -201,3 +203,9 @@ public class sender extends HttpServlet {
     }// </editor-fold>
 
 }
+
+         /******************************************************************\
+         *                                                                  *
+         *              Proudly coded by David Roldan Nocelo                *
+         *                                                                  *
+         \******************************************************************/

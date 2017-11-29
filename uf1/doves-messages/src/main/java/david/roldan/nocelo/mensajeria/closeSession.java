@@ -5,12 +5,8 @@
  */
 package david.roldan.nocelo.mensajeria;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +19,7 @@ import javax.servlet.http.HttpSession;
          *                                                                  *
          \******************************************************************/
 
-
-public class dalek extends HttpServlet {
+public class closeSession extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,19 +30,12 @@ public class dalek extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest req, HttpServletResponse res)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario = req.getUserPrincipal().getName();
-        String mensaje = req.getParameter("mensaje");
-        String directorio = req.getParameter("folder").toLowerCase();
-        try {
-            File fichero = new File("messages/" + usuario + "/" + directorio + "/" + mensaje);
-            fichero.delete();
-        } catch (Exception err) {
-            System.err.println(err);
-        }
-        res.sendRedirect("core");
-
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect("index.html");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,9 +48,9 @@ public class dalek extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(req, res);
+        processRequest(request, response);
     }
 
     /**
@@ -74,8 +62,9 @@ public class dalek extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

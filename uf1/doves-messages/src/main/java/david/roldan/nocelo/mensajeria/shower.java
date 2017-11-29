@@ -19,10 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 
-/**
- *
- * @author david
- */
+         /******************************************************************\
+         *                                                                  *
+         *              Proudly coded by David Roldan Nocelo                *
+         *                                                                  *
+         \******************************************************************/
+
 public class shower extends HttpServlet {
 
     /**
@@ -155,3 +157,9 @@ public class shower extends HttpServlet {
     }// </editor-fold>
 
 }
+
+         /******************************************************************\
+         *                                                                  *
+         *              Proudly coded by David Roldan Nocelo                *
+         *                                                                  *
+         \******************************************************************/

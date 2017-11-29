@@ -16,6 +16,10 @@
         <servlet-name>shower</servlet-name>
         <servlet-class>david.roldan.nocelo.mensajeria.shower</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>closeSession</servlet-name>
+        <servlet-class>david.roldan.nocelo.mensajeria.closeSession</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>core</servlet-name>
         <url-pattern>/core</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>shower</servlet-name>
         <url-pattern>/shower</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>closeSession</servlet-name>
+        <url-pattern>/closeSession</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

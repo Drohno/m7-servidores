@@ -15,12 +15,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author david
- */
+         /******************************************************************\
+         *                                                                  *
+         *              Proudly coded by David Roldan Nocelo                *
+         *                                                                  *
+         \******************************************************************/
+
 public class core extends HttpServlet {
 
+    /**
+     * 
+     * OLD METHOD by David Roldan Nocelo
+     * 
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
@@ -29,7 +35,9 @@ public class core extends HttpServlet {
         newUser("carlos");
         newUser("ruben");
     }
-    
+    * 
+    * */
+      
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,7 +54,12 @@ public class core extends HttpServlet {
         res.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = res.getWriter()) {
             String usuario = req.getUserPrincipal().getName();
-            /* TODO output your page here. You may use following sample code. */
+            
+            /**
+             * New Method by David Roldan Nocelo
+             */
+            newUser(usuario);
+            
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -86,6 +99,8 @@ public class core extends HttpServlet {
             //TODO Funcion que liste el contenido de mensajes enviados
             out.println("<h3>Messages sent</h3>");
             listarDirectorio(usuario, "enviados", out);
+            out.println("<hr>");
+            out.println("<button onclick=window.location.href='closeSession'>Close Session</button>");
             out.println("</div>");
             out.println("</body>");
             out.println("</html>");
@@ -188,3 +203,9 @@ public class core extends HttpServlet {
     }// </editor-fold>
 
 }
+
+         /******************************************************************\
+         *                                                                  *
+         *              Proudly coded by David Roldan Nocelo                *
+         *                                                                  *
+         \******************************************************************/
