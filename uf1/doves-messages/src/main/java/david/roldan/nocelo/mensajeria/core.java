@@ -118,7 +118,7 @@ public class core extends HttpServlet {
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 //System.out.println("File " + listOfFiles[i].getName());
-                out.print("<a href='shower?folder=" + directorio + "&mensaje=" + listOfFiles[i].getName() + "'>" + listOfFiles[i].getName() + "</a><a class='borrar' href=\"dalek?folder=" + directorio + "&mensaje=" + listOfFiles[i].getName() + "\">\t[X]</a>");
+                out.print("<a href='shower?folder=" + directorio + "&mensaje=" + listOfFiles[i].getName() + "'>" + listOfFiles[i].getName() + "</a><a class='borrar' href='dalek?folder=" + directorio + "&mensaje=" + listOfFiles[i].getName() + "' onclick='return confirm(\"Are you sure  to erase this message?\")'>\t[X]</a>");
                 out.print("<br>");
 
             } else if (listOfFiles[i].isDirectory()) {
