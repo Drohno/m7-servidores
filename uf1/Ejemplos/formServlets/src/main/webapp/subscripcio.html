@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Subscripció</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Per subscriure't necessitem les següents dades:</h1>
+        <form id="formulari" method="POST" action="SignUpServlet">
+            <label for="nom">Nom:</label>
+            <input type="text" name="nom" id="nom"><br>
+            <label for="cognoms">Cognoms:</label>
+            <input type="text" name="cognoms" id="cognoms"><br>
+            <label for="naix">Data de naixement:</label>
+            <input id="naix" type="date" name="naixement"><br>
+            <input type="radio" name="sexe" value="home" checked> Home<br>
+            <input type="radio" name="sexe" value="dona"> Dona<br>
+            <label for="email">Correu electrònic:</label>
+            <input id="email" type="text" name="email"><br>
+            <label for="telf">Telèfon:</label>
+            <input id="telf" type="tel" name="telefon"><br>
+            <label for="color">Color preferit:</label>
+            <input id="color" type="color" name="color"><br>
+
+            <label for="cotxe">Marca del cotxe:</label>
+            <select id="cotxe" name="marcaCotxe">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="fiat">Fiat</option>
+                <option value="audi">Audi</option>
+                <option value="audi">Altre</option>
+            </select><br>
+            <input type="checkbox" name="vehicle1" value="Bicicleta"> Tinc una bicicleta<br>
+            <input type="checkbox" name="vehicle2" value="Moto"> Tinc una moto<br>
+            <input list="browsers" name="navegador">
+            <datalist id="browsers">
+                <option value="Internet Explorer">
+                <option value="Firefox">
+                <option value="Chrome">
+                <option value="Opera">
+                <option value="Safari">
+            </datalist>
+            <input type="submit">
+        </form>
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bean Validation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+      <h1>Escriu un missatge:</h1>
+        <form id="formulari" method="POST" action="PostServlet2">
+            <label for="mail">Correu electrònic:</label>
+            <input id="mail" type="text" name="mail"/>
+            <label for="age">Edat:</label>
+            <input id="age" type="number" name="edat" min="0">
+            <input type="submit">
+        </form>
+        <label>Missatge:</label>
+        <textarea name="missatgePost" form="formulari"></textarea>
+    </body>
+</html>
